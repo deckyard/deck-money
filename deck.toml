@@ -1,0 +1,20 @@
+[package]
+name = "@deckyard/money"
+version = "0.1.0"
+description = "Exact currency amounts in minor units: ISO 4217 currencies, rounding, allocation and exchange"
+license = "LGPL-3.0-only"
+authors = ["mplx <mplx@jennifer-lang.dev>"]
+# Pure computation: no network, programs or databases.
+capabilities = []
+keywords = ["money", "currency", "iso4217", "decimal", "rounding", "allocation", "exchange"]
+
+[package.urls]
+deck = "https://raw.githubusercontent.com/deckyard/deck-money/main/deck.toml"
+homepage = "https://github.com/deckyard/deck-money"
+manual = "https://deckyard.github.io/deck-money/"
+
+# 0.26.0 is the first release with the `decimal` library; `jennifer-tiny`
+# has it too.
+[engines]
+jennifer = ">=0.26.0"
+jennifer-tiny = ">=0.26.0"
