@@ -593,8 +593,10 @@ export func greaterThan(a as Money, b as Money) {
  *
  * @param m {Money} the amount
  * @return {bool} `m == 0`
+ * @throws {Error} on an unknown currency
  */
 export func isZero(m as Money) {
+    placesOf($m.currency);
     return $m.amount == 0;
 }
 
@@ -603,8 +605,10 @@ export func isZero(m as Money) {
  *
  * @param m {Money} the amount
  * @return {bool} `m < 0`
+ * @throws {Error} on an unknown currency
  */
 export func isNegative(m as Money) {
+    placesOf($m.currency);
     return $m.amount < 0;
 }
 
@@ -613,7 +617,9 @@ export func isNegative(m as Money) {
  *
  * @param m {Money} the amount
  * @return {bool} `m > 0`
+ * @throws {Error} on an unknown currency
  */
 export func isPositive(m as Money) {
+    placesOf($m.currency);
     return $m.amount > 0;
 }

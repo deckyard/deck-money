@@ -195,6 +195,18 @@ func multiplyMadeUp() {
     multiply(Money{amount: 5, currency: ""}, "2", "up");
 }
 
+func isZeroMadeUp() {
+    isZero(Money{amount: 0, currency: ""});
+}
+
+func isNegativeMadeUp() {
+    isNegative(Money{amount: -5, currency: "ZZZ"});
+}
+
+func isPositiveMadeUp() {
+    isPositive(Money{amount: 5, currency: "ZZZ"});
+}
+
 func testMessagesAreBounded() {
     # A code or mode was echoed whole: a 1 MB string made a 1 MB message.
     testing.assertEqual(
@@ -217,6 +229,9 @@ func testAmountsMustHaveAKnownCurrency() {
     testing.assertEqual(failure(negateMadeUp), "money: unknown currency: ZZZ");
     testing.assertEqual(failure(allocateMadeUp), "money: unknown currency: ZZZ");
     testing.assertEqual(failure(multiplyMadeUp), "money: not a currency code: \"\"");
+    testing.assertEqual(failure(isZeroMadeUp), "money: not a currency code: \"\"");
+    testing.assertEqual(failure(isNegativeMadeUp), "money: unknown currency: ZZZ");
+    testing.assertEqual(failure(isPositiveMadeUp), "money: unknown currency: ZZZ");
 }
 
 func testMaking() {
