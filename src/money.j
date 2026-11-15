@@ -15,7 +15,8 @@
  * Factors, rates and ratios are decimal strings such as `"1.19"`, computed
  * exactly with the `decimal` library; no float touches an amount. Amounts of
  * different currencies never mix. Every failure of the deck is
- * `Error{kind: "money"}`.
+ * `Error{kind: "money"}`, except a reached cap (a string over `MAX_TEXT`
+ * characters, more than `MAX_PARTS` parts): kind `"limit"`.
  *
  * @module money
  * @example
@@ -83,6 +84,11 @@ func fail(msg as string) {
     throw Error{kind: ERROR_KIND, message: "money: " + $msg};
 }
 
+# A reached cap (`MAX_TEXT`, `MAX_PARTS`) is the generic kind "limit".
+func failLimit(msg as string) {
+    throw Error{kind: "limit", message: "money: " + $msg};
+}
+
 # A caller's string as an error message repeats it: cut to SHOWN
 # characters, with anything but printable ASCII as `?`, so that a message
 # stays short and cannot carry a line break or a terminal escape into a log.
@@ -123,7 +129,7 @@ func checkSame(a as Money, b as Money) {
 # A decimal string the deck accepts for a factor, rate or ratio.
 func number(text as string, what as string) {
     if (len($text) > MAX_TEXT) {
-        fail($what + " longer than " + convert.toString(MAX_TEXT) + " characters");
+        failLimit($what + " longer than " + convert.toString(MAX_TEXT) + " characters");
     }
     if (not regex.matches(NUMBER_PATTERN, $text)) {
         fail($what + " is not a decimal number: " + shown($text));
@@ -225,6 +231,7 @@ export func published() {
  * @param code {string} an ISO 4217 code
  * @return {Money} the amount
  * @throws {Error} on malformed text, too many places or an unknown currency
+ * @throws {Error} kind "limit" on text longer than `MAX_TEXT` characters
  * @example
  *   money.parse("12.34", "EUR");   # Money{amount: 1234, currency: "EUR"}
  *   money.parse("1200", "JPY");    # Money{amount: 1200, currency: "JPY"}
@@ -361,6 +368,7 @@ export func absolute(m as Money) {
  * @param mode {string} one of `MODES`
  * @return {Money} the product
  * @throws {Error} on a malformed factor, an unknown mode or past the `int` range
+ * @throws {Error} kind "limit" on a factor longer than `MAX_TEXT` characters
  * @example
  *   money.multiply(money.fromMinor(1999, "EUR"), "1.19", "half-up");   # 23.79 EUR
  */
@@ -379,6 +387,7 @@ export func multiply(m as Money, factor as string, mode as string) {
  * @param mode {string} one of `MODES`
  * @return {Money} the quotient
  * @throws {Error} on a malformed or zero divisor, or an unknown mode
+ * @throws {Error} kind "limit" on a divisor longer than `MAX_TEXT` characters
  * @example
  *   money.divide(money.fromMinor(1000, "EUR"), "3", "half-even");   # 3.33 EUR
  */
@@ -442,7 +451,7 @@ func checkParts(n as int) {
         fail("nothing to allocate to");
     }
     if ($n > MAX_PARTS) {
-        fail("more than " + convert.toString(MAX_PARTS) + " parts");
+        failLimit("more than " + convert.toString(MAX_PARTS) + " parts");
     }
 }
 
@@ -457,6 +466,8 @@ func checkParts(n as int) {
  *   `["1", "1", "1"]`, `["70", "30"]` or `["0.7", "0.3"]`
  * @return {list of Money} one part per ratio
  * @throws {Error} on a malformed, negative or all-zero ratio list
+ * @throws {Error} kind "limit" on more than `MAX_PARTS` ratios or a ratio
+ *   longer than `MAX_TEXT` characters
  * @example
  *   money.allocate(money.fromMinor(1000, "EUR"), ["1", "1", "1"]);   # 3.34, 3.33, 3.33
  *   money.allocate(money.fromMinor(5, "EUR"), ["70", "30"]);         # 0.04, 0.01
@@ -499,7 +510,8 @@ export func allocate(m as Money, ratios as list of string) {
  * @param m {Money} the amount
  * @param n {int} how many parts, 1 to `MAX_PARTS`
  * @return {list of Money} `n` parts
- * @throws {Error} on `n` out of range
+ * @throws {Error} on `n` below 1
+ * @throws {Error} kind "limit" on `n` above `MAX_PARTS`
  * @example
  *   money.allocateTo(money.fromMinor(1000, "EUR"), 3);   # 3.34, 3.33, 3.33
  */
@@ -525,6 +537,7 @@ export func allocateTo(m as Money, n as int) {
  * @return {Money} the amount in `code`
  * @throws {Error} on an unknown currency or mode, a malformed rate or past
  *   the `int` range
+ * @throws {Error} kind "limit" on a rate longer than `MAX_TEXT` characters
  * @example
  *   money.exchange(money.fromMinor(10000, "EUR"), "JPY", "162.345", "half-even");   # 16234 JPY
  */

@@ -10,7 +10,8 @@ Every export of `@deckyard/money`. Guides are listed in
 import "@deckyard/money/" as money;
 ```
 
-Every failure is `Error{kind: "money"}`. A `code` is an ISO 4217 code such
+Every failure is `Error{kind: "money"}`, except a reached cap (`MAX_TEXT`,
+`MAX_PARTS`): `Error{kind: "limit"}`. A `code` is an ISO 4217 code such
 as `"EUR"`; a `mode` is one of `MODES`. Factors, rates and ratios are
 decimal strings such as `"1.19"`.
 

@@ -28,7 +28,7 @@ strings such as `"1.19"`; a `decimal.Decimal` becomes one with
 
 ## Errors
 
-Every failure of the deck is `Error{kind: "money"}`:
+Every failure of the deck is `Error{kind: "money"}`, except a reached cap:
 
 - an unknown currency: `money: unknown currency: ABC`;
 - amounts of two currencies in one operation:
@@ -37,6 +37,11 @@ Every failure of the deck is `Error{kind: "money"}`:
   `money: "12.345" has more than 2 decimal places for EUR`;
 - a mode that is not one of `MODES`;
 - a result past the `int` range: `money: amount out of range`.
+
+A reached cap is the generic kind `"limit"` instead, with the same `money: `
+prefix: a string longer than `MAX_TEXT` characters
+(`money: factor longer than 50 characters`), or an allocation into more than
+`MAX_PARTS` parts.
 
 A string the caller passed appears in a message cut to 20 characters, with
 anything but printable ASCII shown as `?`, so a message stays one short line.

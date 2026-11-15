@@ -28,6 +28,34 @@ func failure(f as func) {
 }
 
 /**
+ * The message a call fails with when it reaches a cap.
+ *
+ * @param f {func} a function taking nothing
+ * @return {string} the message of the "limit" error; "" when it passes
+ */
+func limitFailure(f as func) {
+    try {
+        $f();
+    } catch (e) {
+        testing.assertEqual($e.kind, "limit");
+        return $e.message;
+    }
+    return "";
+}
+
+func longAmount() {
+    parse(strings.repeat("1", MAX_TEXT + 1), "EUR");
+}
+
+func tooManyRatios() {
+    def ratios as list of string init [];
+    for (def i in lists.range(0, MAX_PARTS + 1)) {
+        $ratios[] = "1";
+    }
+    allocate(eur(100), $ratios);
+}
+
+/**
  * The message `parse` fails with.
  *
  * @param text {string} the amount
@@ -298,9 +326,8 @@ func testParse() {
             "money: amount is not a decimal number: " + shown($bad));
     }
     testing.assertEqual(parseFailure("92233720368547758.08", "EUR"), "money: amount out of range");
-    testing.assertEqual(
-        parseFailure(strings.repeat("1", MAX_TEXT + 1), "EUR"),
-        "money: amount longer than 50 characters");
+    # a reached cap is the generic kind "limit"
+    testing.assertEqual(limitFailure(longAmount), "money: amount longer than 50 characters");
     testing.assertEqual(parseFailure("1", "XAU"), "money: unknown currency: XAU");
 }
 
@@ -378,7 +405,7 @@ func testMultiplyAndDivide() {
         failure(unknownMode),
         "money: unknown rounding mode \"round\"; use one of " + strings.join(MODES, ", "));
     testing.assertEqual(failure(floatFactor), "money: factor is not a decimal number: \"1e2\"");
-    testing.assertEqual(failure(longFactor), "money: factor longer than 50 characters");
+    testing.assertEqual(limitFailure(longFactor), "money: factor longer than 50 characters");
     testing.assertEqual(failure(multiplyPastMax), "money: amount out of range");
 }
 
@@ -413,7 +440,8 @@ func testAllocateTo() {
         amounts(allocateTo(eur(MAX_INT), 2)),
         [4611686018427387904, 4611686018427387903]);
     testing.assertEqual(failure(noParts), "money: nothing to allocate to");
-    testing.assertEqual(failure(tooManyParts), "money: more than 100000 parts");
+    testing.assertEqual(limitFailure(tooManyParts), "money: more than 100000 parts");
+    testing.assertEqual(limitFailure(tooManyRatios), "money: more than 100000 parts");
 }
 
 func testAllocationNeverLosesAUnit() {

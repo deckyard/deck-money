@@ -84,4 +84,6 @@ and JPY to KWD need no adjusting. The rate must be above zero.
 ## Limits
 
 Amounts, factors, rates and ratios are at most `MAX_TEXT` (50) characters,
-so a hostile string cannot become a number with a million digits.
+so a hostile string cannot become a number with a million digits. A longer
+string is kind `"limit"`, as is an allocation into more than `MAX_PARTS`
+parts.
