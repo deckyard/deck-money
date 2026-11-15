@@ -1,6 +1,6 @@
 [package]
 name = "@deckyard/money"
-version = "0.1.0"
+version = "0.2.0"
 description = "Exact currency amounts in minor units: ISO 4217 currencies, rounding, allocation and exchange"
 license = "LGPL-3.0-only"
 authors = ["mplx <mplx@jennifer-lang.dev>"]
