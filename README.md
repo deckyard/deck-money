@@ -38,7 +38,7 @@ for (def part in money.allocate($gross, ["1", "1", "1"])) {
 
 ## Requirements
 
-Jennifer 0.26.0 or newer, `jennifer` or `jennifer-tiny`. No capabilities:
+Jennifer 0.27.0 or newer, `jennifer` or `jennifer-tiny`. No capabilities:
 the deck is pure computation.
 
 ## Development

@@ -48,4 +48,4 @@ anything but printable ASCII shown as `?`, so a message stays one short line.
 
 ## Requirements
 
-Jennifer 0.26.0 or newer, `jennifer` or `jennifer-tiny`. No capabilities.
+Jennifer 0.27.0 or newer, `jennifer` or `jennifer-tiny`. No capabilities.

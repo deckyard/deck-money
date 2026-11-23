@@ -149,7 +149,9 @@ values are worked out by hand.
 ## Dependencies on the interpreter
 
 - The `decimal` system library (exact base-10 arithmetic and its seven
-  rounding modes). 0.26.0 is the first release that ships it, hence the floor
-  `>=0.26.0`, for both `jennifer` and `jennifer-tiny`.
+  rounding modes), first shipped in 0.26.0, in both `jennifer` and
+  `jennifer-tiny`.
+- Floor `>=0.27.0` for both binaries: `strings.replicate` arrived in
+  0.27.0.
 - The `$list[] = x` append in allocation loops: appending with `lists.push`
   copied the list each time and made large allocations quadratic.

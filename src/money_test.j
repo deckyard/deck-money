@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 /**
  * White-box tests for the entry module: jennifer test src/money_test.j
@@ -44,12 +44,12 @@ func limitFailure(f as func) {
 }
 
 func longAmount() {
-    parse(strings.repeat("1", MAX_TEXT + 1), "EUR");
+    parse(strings.replicate("1", MAX_TEXT + 1), "EUR");
 }
 
 func tooManyRatios() {
     def ratios as list of string init [];
-    for (def i in lists.range(0, MAX_PARTS + 1)) {
+    for (def i in 0..MAX_PARTS + 1) {
         $ratios[] = "1";
     }
     allocate(eur(100), $ratios);
@@ -151,7 +151,7 @@ func floatFactor() {
 }
 
 func longFactor() {
-    multiply(eur(100), "1." + strings.repeat("0", MAX_TEXT), "half-even");
+    multiply(eur(100), "1." + strings.replicate("0", MAX_TEXT), "half-even");
 }
 
 func divideByZero() {
@@ -191,11 +191,11 @@ func exchangeUnknown() {
 }
 
 func longCode() {
-    fromMinor(1, strings.repeat("A", 1000000));
+    fromMinor(1, strings.replicate("A", 1000000));
 }
 
 func longMode() {
-    multiply(eur(1), "2", strings.repeat("x", 1000000));
+    multiply(eur(1), "2", strings.replicate("x", 1000000));
 }
 
 func controlCode() {

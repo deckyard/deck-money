@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 /**
  * Exact currency amounts.
@@ -96,7 +96,7 @@ func shown(text as string) {
     def cut as string init $text;
     def more as string init "";
     if (len($text) > SHOWN) {
-        $cut = strings.substring($text, 0, SHOWN);
+        $cut = $text[..SHOWN];
         $more = "...";
     }
     return "\"" + regex.replace("[^ -~]", $cut, "?") + $more + "\"";
@@ -405,7 +405,7 @@ export func divide(m as Money, divisor as string, mode as string) {
 # strings sort as the numbers do.
 func padded(d as decimal.Decimal, width as int) {
     def text as string init decimal.toString($d);
-    return strings.repeat("0", $width - len($text)) + $text;
+    return strings.replicate("0", $width - len($text)) + $text;
 }
 
 # Split `amount` by whole-number weights: each part gets its share rounded
