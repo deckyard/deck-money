@@ -82,7 +82,7 @@ Deliberately out of scope:
   exact inverse of `parse`.
 - **The currency table is generated into the source.** `src/currencies.j`
   holds `PUBLISHED` (the list's date) and the code-to-places table, generated
-  from the ISO 4217 list SIX publishes (`list-one.xml`) by
+  from the ISO 4217 list SIX™ publishes (`list-one.xml`) by
   `tools/gen-currencies.j`, a Jennifer script over the `xml` library. The
   deck needs no data file at run time, and a table update is
   regenerate-review-release. Codes the list gives no minor units (precious

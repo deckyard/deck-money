@@ -20,7 +20,7 @@ precious metals, `XTS` (testing) and `XXX` (no currency). Fund codes such as
 
 ## The table
 
-`src/currencies.j` holds the table, generated from the list SIX publishes for
+`src/currencies.j` holds the table, generated from the list SIX™ publishes for
 ISO. The list is amended a few times a year, usually for a new currency or a
 redenomination. To bring the table up to date:
 
