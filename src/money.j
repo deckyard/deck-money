@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.27.0
+# pragma-jennifer-version: >=0.28.0
 
 /**
  * Exact currency amounts.
@@ -258,7 +258,7 @@ export func parse(text as string, code as string) {
  *   money.format(money.fromMinor(500, "EUR"));   # "5.00"
  */
 export func format(m as Money) {
-    return decimal.toString(toDecimal($m));
+    return convert.toString(toDecimal($m));
 }
 
 /**
@@ -404,7 +404,7 @@ export func divide(m as Money, divisor as string, mode as string) {
 # Pad a non-negative whole decimal with zeros to `width` digits, so that
 # strings sort as the numbers do.
 func padded(d as decimal.Decimal, width as int) {
-    def text as string init decimal.toString($d);
+    def text as string init convert.toString($d);
     return strings.replicate("0", $width - len($text)) + $text;
 }
 
@@ -418,7 +418,7 @@ func split(amount as int, code as string, weights as list of decimal.Decimal) {
     def shares as list of decimal.Decimal init [];
     def keys as list of string init [];
     def given as decimal.Decimal init decimal.from(0);
-    def width as int init len(decimal.toString($total));
+    def width as int init len(convert.toString($total));
     def indexWidth as int init len(convert.toString(len($weights)));
     for (def i as int init 0; $i < len($weights); $i = $i + 1) {
         def exact as decimal.Decimal init decimal.mul($whole, $weights[$i]);

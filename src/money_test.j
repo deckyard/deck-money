@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.27.0
+# pragma-jennifer-version: >=0.28.0
 
 /**
  * White-box tests for the entry module: jennifer test src/money_test.j
@@ -350,8 +350,8 @@ func testFormat() {
 }
 
 func testDecimals() {
-    testing.assertEqual(decimal.toString(toDecimal(eur(1200))), "12.00");
-    testing.assertEqual(decimal.toString(toDecimal(fromMinor(5, "JPY"))), "5");
+    testing.assertEqual(convert.toString(toDecimal(eur(1200))), "12.00");
+    testing.assertEqual(convert.toString(toDecimal(fromMinor(5, "JPY"))), "5");
     testing.assertEqual(fromDecimal(decimal.from("12.345"), "EUR", "half-even"), eur(1234));
     testing.assertEqual(fromDecimal(decimal.from("12.345"), "EUR", "half-up"), eur(1235));
     testing.assertEqual(fromDecimal(decimal.from("-12.345"), "EUR", "floor"), eur(-1235));
